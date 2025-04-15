@@ -1,0 +1,1 @@
+thought pattern: Need Dockerfile to create custom image with index.html file, need docker-compose.yml file to config the set up, make sure logged into DockerHub to push the file, configure secrets and login
