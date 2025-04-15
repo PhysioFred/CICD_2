@@ -5,3 +5,8 @@ services:
     build: .
     ports:
     - "8080:80"
+  
+  Prometheus:
+    image: prom/prometheus:latest
+    ports:
+    - "9090:9090"
