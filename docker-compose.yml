@@ -2,6 +2,6 @@ name: CICD2
 
 services:
   nginx:
-    image: nginx:latest
+    build: .
     ports:
     - "8080:80"
