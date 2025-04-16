@@ -1,1 +1,2 @@
 thought pattern: Need Dockerfile to create custom image with index.html file, need docker-compose.yml file to config the set up, make sure logged into DockerHub to push the file, configure secrets and login
+I need to set up nginx stub_status endpoint to be able to gather data and expose it to proemetheus. Thus, Prometheus config also needs to be set up
