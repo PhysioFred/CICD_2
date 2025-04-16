@@ -6,16 +6,16 @@ services:
     ports:
     - "8080:80"
     volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    - ./index.html:/usr/share/nginx/html/index.html:ro
     networks:
     - max_info
 
   prometheus:
-    image: prom/prometheus:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.prometheus
     ports:
     - "9090:9090"
-    volumes:
-    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
     - max_info
 
