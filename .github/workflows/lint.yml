@@ -1,0 +1,22 @@
+---
+name: LintyLint
+
+athuor: FreddyD
+
+description: it's ya boi fred with the linter
+
+on:
+  push:
+    branches: [feature/CI, main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  get-linted-bruh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Ze Code
+        uses: actions/checkout@v4
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.3.0
