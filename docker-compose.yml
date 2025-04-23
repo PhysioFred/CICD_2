@@ -4,36 +4,36 @@ services:
   nginx:
     build: .
     ports:
-    - "8080:80"
+      - "8080:80"
     volumes:
-    - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./index.html:/usr/share/nginx/html/index.html:ro
     networks:
-    - max_info
+      - max_info
 
   prometheus:
     build:
       context: .
       dockerfile: Dockerfile.prometheus
     ports:
-    - "9090:9090"
+      - "9090:9090"
     networks:
-    - max_info
+      - max_info
 
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:latest
     ports:
-    - "9113:9113"
+      - "9113:9113"
     command:
-    - --nginx.scrape-uri=http://nginx:80/stub_status
+      - --nginx.scrape-uri=http://nginx:80/stub_status
     networks:
-    - max_info
+      - max_info
 
   grafana:
     image: grafana/grafana
     ports:
-    - "3000:3000"
+      - "3000:3000"
     networks:
-    - max_info
+      - max_info
 
 networks:
   max_info:
