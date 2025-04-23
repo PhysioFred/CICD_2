@@ -13,6 +13,8 @@
       steps:
         - name: Checkout Ze Code
           uses: actions/checkout@v4
+          with:
+            fetch-depth: 0  # Fetch all history and branches
   
         - name: Super-linter
           uses: super-linter/super-linter@v7.3.0
@@ -20,3 +22,4 @@
             DEFAULT_BRANCH: main
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             VALIDATE_ALL_CODEBASE: true
+            DISPLAY: ""  # Suppress potential GTK warnings
