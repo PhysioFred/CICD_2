@@ -1,11 +1,15 @@
 name: Lint Codebase
-on: [push]
-permissions:
-  contents: read  # Limit to read-only unless write is needed
-  checks: write   # Allow writing to checks (e.g., for linting reports)
+
+on: [push, pull_request]
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: super-linter/super-linter@v7.3.0
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@v7.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
