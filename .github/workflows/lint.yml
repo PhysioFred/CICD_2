@@ -1,25 +1,11 @@
----
-  name: LintyLint
-  
-  on:
-    push:
-      branches: [feature/CI, main]
-    pull_request:
-      branches: [main]
-  
-  jobs:
-    get-linted-bruh:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Ze Code
-          uses: actions/checkout@v4
-          with:
-            fetch-depth: 0  # Fetch all history and branches
-  
-        - name: Super-linter
-          uses: super-linter/super-linter@v7.3.0
-          env:
-            DEFAULT_BRANCH: main
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            VALIDATE_ALL_CODEBASE: true
-            DISPLAY: ""  # Suppress potential GTK warnings
+name: Lint Codebase
+on: [push]
+permissions:
+  contents: read  # Limit to read-only unless write is needed
+  checks: write   # Allow writing to checks (e.g., for linting reports)
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: super-linter/super-linter@v7.3.0
