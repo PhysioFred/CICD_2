@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+# Define permissions for the GITHUB_TOKEN
+permissions:
+  contents: read  # Needed to read the repository files for linting
+  statuses: write  # Needed to report linting results to GitHub Checks API
+
 jobs:
   lint:
     runs-on: ubuntu-latest
