@@ -12,3 +12,7 @@ scrape_configs:
   - job_name: "nginx"
     static_configs:
       - targets: ["nginx-prometheus-exporter:9113"] # Service name from docker-compose.
+
+  - name: Dump Prometheus logs on failure
+    if: failure()
+    run: docker logs $(docker ps -aqf "name=prometheus")
