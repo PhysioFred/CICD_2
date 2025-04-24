@@ -58,6 +58,10 @@ jobs:
           docker ps
           exit 1
 
+      - name: Dump Prometheus logs on failure
+        if: failure()
+        run: docker logs $(docker ps -aqf "name=prometheus")
+
       - name: Check nginx is serving content
         run: |
           curl --fail http://localhost:8080 || (docker compose logs && exit 1)
