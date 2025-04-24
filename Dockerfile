@@ -14,9 +14,12 @@ USER root
 # Create a non-root user first
 RUN useradd -m -r nginxuser
 
+RUN touch /var/run/nginx.pid && chown nginxuser:nginxuser /var/run/nginx.pid
+
 # Set ownership of necessary directories/files
 RUN mkdir -p /var/cache/nginx && chown -R nginxuser:nginxuser /var/cache/nginx \
-    && chown nginxuser:nginxuser /etc/nginx/nginx.conf
+    && chown nginxuser:nginxuser /etc/nginx/nginx.conf \
+    && touch /var/run/nginx.pid && chown nginxuser:nginxuser /var/run/nginx.pid
 
 # Switch to the non-root user
 USER nginxuser
