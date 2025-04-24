@@ -6,8 +6,17 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Add a healthcheck to monitor Nginx
 HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -f http://localhost:9090/-/healthy || exit 1
+  CMD curl -f http://localhost:80/ || exit 1
 
-# Create and switch to a non-root user
-RUN useradd -m -r nginxuser && chown nginxuser:nginxuser /etc/nginx/nginx.conf
+# Start as root (default unless changed earlier)
+USER root
+
+# Create a non-root user first
+RUN useradd -m -r nginxuser
+
+# Set ownership of necessary directories/files
+RUN mkdir -p /var/cache/nginx && chown -R nginxuser:nginxuser /var/cache/nginx \
+    && chown nginxuser:nginxuser /etc/nginx/nginx.conf
+
+# Switch to the non-root user
 USER nginxuser
