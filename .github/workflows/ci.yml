@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, feature/CI ]
+    branches: [main, feature/CI]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 # Define permissions for the GITHUB_TOKEN
 permissions:
