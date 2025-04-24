@@ -4,9 +4,6 @@ FROM nginx:1.23.3
 # Copy configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Add a healthcheck to monitor Nginx
-HEALTHCHECK --interval=10s --timeout=3s \
-  CMD curl -f http://localhost:80/ || exit 1
 
 # Start as root (default unless changed earlier)
 USER root
