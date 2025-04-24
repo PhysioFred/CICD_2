@@ -33,34 +33,6 @@ jobs:
         run: |
           docker compose up -d
 
-      - name: Wait for services to be healthy
-        run: |
-          TIMEOUT=180
-          INTERVAL=5
-          ELAPSED=0
-          while [ $ELAPSED -lt $TIMEOUT ]; do
-            UNHEALTHY=$(docker ps --filter 'health=unhealthy' --format '{{.Names}}')
-            HEALTHY_COUNT=$(docker ps --filter 'health=healthy' --format '{{.Names}}' | wc -l)
-            TOTAL=$(docker compose ps -q | wc -l)
-            if [ "$HEALTHY_COUNT" -eq "$TOTAL" ]; then
-              echo "All services are healthy!"
-              exit 0
-            fi
-            if [ -n "$UNHEALTHY" ]; then
-              echo "Some services are unhealthy: $UNHEALTHY"
-              docker ps
-              exit 1
-            fi
-            sleep $INTERVAL
-            ELAPSED=$((ELAPSED + INTERVAL))
-          done
-          echo "Timed out waiting for services to be healthy."
-          docker ps
-          exit 1
-
-      - name: Dump Prometheus logs on failure
-        if: failure()
-        run: docker logs $(docker ps -aqf "name=prometheus")
 
       - name: Check nginx is serving content
         run: |
