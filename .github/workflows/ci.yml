@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:24.0.5-dind
+        options: --privileged
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images
+        run: |
+          docker compose build
+
+      - name: Start services
+        run: |
+          docker compose up -d
+
+      - name: Wait for services to be healthy
+        run: |
+          TIMEOUT=60
+          INTERVAL=5
+          ELAPSED=0
+          while [ $ELAPSED -lt $TIMEOUT ]; do
+            HEALTHY=$(docker compose ps --format json | jq -r '[.[].Health] | all(. == "healthy")')
+            if [ "$HEALTHY" = "true" ]; then
+              echo "All services are healthy!"
+              exit 0
+            fi
+            sleep $INTERVAL
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+          echo "Timed out waiting for services to be healthy."
+          docker compose ps
+          exit 1
+
+      - name: Check nginx is serving content
+        run: |
+          curl --fail http://localhost:8080 || (docker compose logs && exit 1)
+
+      - name: Tear down
+        if: always()
+        run: |
+          docker compose down
