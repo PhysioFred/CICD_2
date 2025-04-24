@@ -1,4 +1,4 @@
-name: CICD2
+name: cicd_2
 
 services:
   nginx:

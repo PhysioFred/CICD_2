@@ -7,7 +7,3 @@ COPY prometheus.yml /etc/prometheus/prometheus.yml
 # Add a healthcheck to monitor Prometheus
 HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:9090/-/healthy || exit 1
-
-# Create and switch to a non-root user
-RUN useradd -m -r prometheus && chown prometheus:prometheus /etc/prometheus/prometheus.yml
-USER prometheus
