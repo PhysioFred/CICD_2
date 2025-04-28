@@ -37,3 +37,6 @@ jobs:
         if: always()
         run: |
           docker compose down
+
+      - name: Force failure for testing
+        run: exit 1
