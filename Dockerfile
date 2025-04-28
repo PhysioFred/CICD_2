@@ -2,10 +2,9 @@
 # Use a specific version instead of latest
 FROM nginx:1.23.3
 
-# Copy configuration
+# Copy configuration & index.html
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Use root user (default)
+COPY index.html /usr/share/nginx/html/index.html
 
 # Add a simple healthcheck for Nginx
 HEALTHCHECK --interval=10s --timeout=3s \
